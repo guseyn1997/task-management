@@ -19,7 +19,7 @@ API для системы управления задачами, построе�
 ### С использованием Docker (рекомендуется)
 
 1. Клонируйте репозиторий:
-git clone https://github.com/your-username/task-management-api.git
+git clone https://github.com/guseyn1997/task-management-api.git
 cd task-management-api
 
 2. Запустите с Docker Compose:
