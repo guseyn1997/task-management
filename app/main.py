@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.api import users, auth
+from app.api import users, auth, projects, tasks
 from app.database import engine
 from app.models import Base
 
@@ -9,6 +9,8 @@ app = FastAPI()
 
 app.include_router(auth.router)
 app.include_router(users.router)
+app.include_router(projects.router, prefix="/projects", tags=["projects"])
+app.include_router(tasks.router, prefix="/tasks", tags=["tasks"])
 
 @app.get("/")
 def read_root():
