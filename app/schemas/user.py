@@ -1,10 +1,11 @@
 from typing import Optional, List
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, constr
 from datetime import datetime
 
 # Общие атрибуты
 class UserBase(BaseModel):
     email: EmailStr
+    password: constr(min_length=8, regex=r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$")
     username: str
     is_active: Optional[bool] = True
     is_superuser: Optional[bool] = False
