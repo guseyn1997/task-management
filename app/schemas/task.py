@@ -1,5 +1,5 @@
 from typing import Optional, List
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from datetime import datetime
 from enum import Enum
 
@@ -21,7 +21,7 @@ class TaskBase(BaseModel):
     description: Optional[str] = None
     status: TaskStatus = TaskStatus.TODO
     priority: TaskPriority = TaskPriority.MEDIUM
-    estimated_hours: Optional[int] = 0
+    estimated_hours: Optional[int] = Field(ge=0, le=24, example=2)
     deadline: Optional[datetime] = None
 
 # Свойства для создания задачи
