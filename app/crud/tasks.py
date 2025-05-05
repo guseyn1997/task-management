@@ -68,7 +68,9 @@ class CRUDTask(CRUDBase[Task, TaskCreate, TaskUpdate]):
         Получить задачи для пользователя (созданные им, назначенные ему или из его проектов)
         """
         # Сначала получаем проекты пользователя
-        user_projects = db.query(Project.id).filter(Project.owner_id == user_id).all()
+        user_projects = db.query(Project.id).filter(
+            Project.owner_id == user_id
+        ).limit(1000).all()
         user_project_ids = [p.id for p in user_projects]
         
         # Формируем запрос
@@ -134,7 +136,9 @@ class CRUDTask(CRUDBase[Task, TaskCreate, TaskUpdate]):
         elif not current_user.is_superuser:
             # Если пользователь не суперпользователь и проект не указан,
             # возвращаем только задачи из его проектов
-            user_projects = db.query(Project.id).filter(Project.owner_id == current_user.id).all()
+            user_projects = db.query(Project.id).filter(
+                Project.owner_id == user_id
+            ).limit(1000).all()
             user_project_ids = [p.id for p in user_projects]
             query = query.filter(Task.project_id.in_(user_project_ids))
         
