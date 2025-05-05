@@ -66,3 +66,10 @@ def read_user(
             detail="У вас недостаточно прав для выполнения этого действия",
         )
     return user
+    
+@router.get("/", response_model=List[schemas.User])
+def read_users(...):
+    if not current_user.is_superuser:
+        raise HTTPException(status_code=403, detail="Forbidden")
+    users = crud.user.get_multi(db, skip=skip, limit=limit)
+    return users
