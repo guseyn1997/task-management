@@ -1,1 +1,50 @@
 
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.env/
+
+# Database
+*.db
+*.sqlite3
+*.sqlite
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Development tools
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Docker
+.docker/
+docker-volumes/
