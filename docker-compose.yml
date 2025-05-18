@@ -3,6 +3,7 @@ version: "3.8"
 services:
   db:
     image: postgres:14
+    container_name: task_management_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
@@ -10,18 +11,24 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"  # Only expose to localhost
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
 
   app:
     build: .
+    container_name: task_management_api
     command: >
-      bash -c "alembic upgrade head &&
-               uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+      bash -c "
+        echo 'Waiting for database...' &&
+        while ! nc -z db 5432; do sleep 0.1; done &&
+        echo 'Database started' &&
+        alembic upgrade head &&
+        uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     volumes:
       - .:/app
     ports:
@@ -33,6 +40,7 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
     depends_on:
       - db
+    restart: unless-stopped
 
 volumes:
   postgres_data:
